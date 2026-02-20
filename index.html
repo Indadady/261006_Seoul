@@ -78,7 +78,8 @@
         <div class="animate-fade-in-up text-white">
             <span class="bg-blue-600/90 px-6 py-2 rounded-full text-lg md:text-xl font-bold mb-6 inline-block border border-white/20 shadow-lg font-title tracking-wide">🏫 남선초등학교 체험학습</span>
             <h1 class="text-4xl md:text-6xl font-bold mb-4 drop-shadow-lg font-title">신나는 서울<br><span class="text-yellow-400 font-bold">문화탐방 2박 3일</span></h1>
-            <p class="text-lg md:text-xl text-slate-100 font-medium tracking-wide">꿈과 상상력이 자라나는 특별한 여행!</p>
+            <p class="text-xl md:text-2xl text-white font-bold tracking-wide mb-2">10.06(화) ~ 10.08(목)</p>
+            <p class="text-sm md:text-base text-slate-200 font-medium tracking-wide">꿈과 상상력이 자라나는 특별한 여행!</p>
         </div>
     </section>
 
@@ -210,9 +211,9 @@
                 </div>
 
                 <div class="flex overflow-x-auto no-scrollbar gap-2 mb-8 justify-start md:justify-center">
-                    <button class="tab-btn active shrink-0 px-6 py-3 rounded-2xl border-2 border-blue-500 bg-blue-500 text-white font-bold text-sm transition" onclick="openTab(event, 'day1')">1일차</button>
-                    <button class="tab-btn shrink-0 px-6 py-3 rounded-2xl border-2 border-slate-200 bg-white text-slate-500 font-bold text-sm transition" onclick="openTab(event, 'day2')">2일차</button>
-                    <button class="tab-btn shrink-0 px-6 py-3 rounded-2xl border-2 border-slate-200 bg-white text-slate-500 font-bold text-sm transition" onclick="openTab(event, 'day3')">3일차</button>
+                    <button class="tab-btn active shrink-0 px-6 py-3 rounded-2xl border-2 border-blue-500 bg-blue-500 text-white font-bold text-sm transition" onclick="openTab(event, 'day1')">1일차 (10/6 화)</button>
+                    <button class="tab-btn shrink-0 px-6 py-3 rounded-2xl border-2 border-slate-200 bg-white text-slate-500 font-bold text-sm transition" onclick="openTab(event, 'day2')">2일차 (10/7 수)</button>
+                    <button class="tab-btn shrink-0 px-6 py-3 rounded-2xl border-2 border-slate-200 bg-white text-slate-500 font-bold text-sm transition" onclick="openTab(event, 'day3')">3일차 (10/8 목)</button>
                 </div>
 
                 <div class="bg-white rounded-3xl shadow-xl border border-slate-100 overflow-hidden">
@@ -578,6 +579,15 @@
             // Fit bounds to Seoul area mostly
             const bounds = L.latLngBounds([spots.goyang, spots.gwanghwamun, spots.jamsil, spots.hanriver, spots.hanam]);
             map.fitBounds(bounds, { padding: [30, 30] });
+        }
+
+        // D-Day Calculation (Target: 2026-10-06)
+        const depart = new Date('2026-10-06');
+        const diff = Math.ceil((depart - new Date()) / (1000*60*60*24));
+        const badge = document.getElementById('d-day-badge');
+        if(badge) {
+            badge.textContent = diff > 0 ? `D-${diff}` : (diff === 0 ? 'D-DAY' : `D+${Math.abs(diff)}`);
+            badge.classList.remove('hidden');
         }
 
         // Observer for Map
