@@ -46,12 +46,15 @@
 </head>
 <body class="antialiased pb-20 md:pb-0">
 
+    <!-- 화면에만 보이고 인쇄할 때는 숨겨지는 메인 래퍼 시작 -->
+    <div class="print:hidden">
+
     <!-- Header (Sticky Navigation) -->
     <header class="bg-white/95 backdrop-blur-md shadow-md sticky top-0 z-50 transition-all duration-300">
         <nav class="container mx-auto px-4 h-16 flex items-center justify-between">
             <div class="flex items-center gap-3 shrink-0">
                 <a href="http://tourmaker.kr" target="_blank">
-                    <img src="https://blogger.googleusercontent.com/img/a/AVvXsEitI-Z-hD82keOJ1AqHw-VTZjpw2U-O5UjtV9h3zblyG0wjsVfBWe9X9o0Q_Spctrt7krkd9qXO0xKTmGJLw4gyMZrRqpshKMFttnyx6OcC8-IGz3XLUZpGQOnRqVdol8jz5HuoDLqsEifnVRhcjUJHm13Sz8JrX9aPswMNUwZPvGtJEnQjhc2PiXlo-B8" alt="Tourmaker" class="h-8">
+                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgHfgIX70O5k6Anuo0UgALIdaG9jSga9auHu3uyz0uEirylGPAJnjN_qQbvEGMUvPqUQf_g9FMNUHRxlDcUBf4vZ3Mpy4TnA9WxbmzWYK11gt2zuy_Irl4wctNFjcjLyPo0GPXV792o_J7L9guRMuDfeC1gy7USwywjYbECZgzcsHybuGRRAXAnO1eNmP8/s320/logo.png" alt="Tourmaker" class="h-8">
                 </a>
                 <span id="d-day-badge" class="hidden bg-blue-500 text-white text-[10px] px-2 py-0.5 rounded-full font-bold animate-pulse"></span>
             </div>
@@ -61,6 +64,7 @@
                 <div class="flex items-center space-x-1 md:space-x-6 whitespace-nowrap pr-4">
                     <a href="#home" class="px-3 py-2 text-sm font-bold text-slate-600 hover:text-blue-600 hover:bg-slate-50 rounded-lg transition-colors">홈</a>
                     <a href="#highlights" class="px-3 py-2 text-sm font-bold text-blue-600 hover:text-blue-800 hover:bg-blue-50 rounded-lg transition-colors"><i class="fa-solid fa-star mr-1 text-yellow-400"></i>포인트</a>
+                    <a href="#preview" class="px-3 py-2 text-sm font-medium text-indigo-600 hover:text-indigo-800 hover:bg-indigo-50 rounded-lg transition-colors"><i class="fa-solid fa-book-open mr-1"></i>도시미리보기</a>
                     <a href="#safety" class="px-3 py-2 text-sm font-medium text-slate-600 hover:text-blue-600 hover:bg-slate-50 rounded-lg transition-colors">안전안내</a>
                     <a href="#map-section" class="px-3 py-2 text-sm font-medium text-slate-600 hover:text-blue-600 hover:bg-slate-50 rounded-lg transition-colors">여행동선</a>
                     <a href="#schedule" class="px-3 py-2 text-sm font-medium text-slate-600 hover:text-blue-600 hover:bg-slate-50 rounded-lg transition-colors">세부일정</a>
@@ -128,8 +132,43 @@
         </div>
     </section>
 
+    <!-- City Preview (Humanities Content) -->
+    <section id="preview" class="py-16 bg-slate-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-10">
+                <span class="text-indigo-500 font-black tracking-widest text-xs uppercase">City Preview</span>
+                <h2 class="text-3xl font-bold text-slate-800 mt-2 font-title">탐방 도시 미리보기</h2>
+                <p class="text-slate-500 mt-2 text-sm">우리가 찾아가는 '서울'은 어떤 곳일까요? 출발 전 미리 알아보아요!</p>
+            </div>
+            
+            <div class="max-w-4xl mx-auto bg-white rounded-3xl p-8 md:p-10 border border-slate-200 shadow-md relative overflow-hidden">
+                <div class="absolute top-0 right-0 opacity-10 text-[150px] leading-none pointer-events-none transform translate-x-4 -translate-y-4">
+                    🏙️
+                </div>
+                <h3 class="text-2xl font-bold text-slate-800 border-b-2 border-indigo-100 pb-4 mb-6 font-title">
+                    대한민국의 심장, 서울 (Seoul) <span class="text-base text-indigo-500 font-medium ml-2 font-sans hidden md:inline-block">| 전통과 미래가 숨쉬는 곳</span>
+                </h3>
+                
+                <div class="grid md:grid-cols-2 gap-8 relative z-10">
+                    <div>
+                        <h4 class="font-bold text-slate-800 flex items-center gap-2 mb-3 text-lg"><i class="fa-solid fa-landmark text-amber-600"></i> 600년 역사의 도읍지</h4>
+                        <p class="text-sm text-slate-600 leading-relaxed text-justify">
+                            조선 시대 '한양'이라 불렸던 서울은 경복궁, 창덕궁 등 5대 궁궐이 최첨단 빌딩 숲과 아름답게 어우러져 있는 세계적인 역사 도시입니다. 도심 한가운데를 흐르는 '한강'은 전쟁의 아픔을 딛고 일어선 우리 민족의 기적과 눈부신 성장을 상징하는 특별한 공간이랍니다.
+                        </p>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-slate-800 flex items-center gap-2 mb-3 text-lg"><i class="fa-solid fa-rocket text-indigo-500"></i> 첨단 기술과 문화의 중심</h4>
+                        <p class="text-sm text-slate-600 leading-relaxed text-justify">
+                            서울은 이제 과거를 넘어 미래로 나아가고 있습니다. 전 세계가 열광하는 K-POP(하이커 그라운드)과 대한민국의 훌륭한 첨단 모빌리티 기술(현대모터스튜디오), 그리고 하늘을 찌를 듯한 국내 최고층 롯데월드타워까지! 끊임없이 진화하는 K-Culture의 중심지를 이번 여행에서 모두 만나보게 됩니다.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Safety & Bus Guide -->
-    <section id="safety" class="py-12 bg-slate-50">
+    <section id="safety" class="py-12 bg-white">
         <div class="container mx-auto px-4">
             <div class="max-w-5xl mx-auto mb-8">
                 <div class="bg-white rounded-2xl border border-blue-100 shadow-lg overflow-hidden">
@@ -178,7 +217,7 @@
     </section>
 
     <!-- Map -->
-    <section id="map-section" class="py-12 bg-white">
+    <section id="map-section" class="py-12 bg-slate-50">
         <div class="container mx-auto px-4">
             <div class="text-center mb-8">
                 <h2 class="text-3xl font-bold text-slate-800 tracking-tight font-title">한눈에 보는 여행 동선</h2>
@@ -201,16 +240,20 @@
     </section>
 
     <!-- 5. Detailed Schedule -->
-    <section id="schedule" class="py-16 bg-white">
+    <section id="schedule" class="py-16 bg-white border-t border-slate-100">
         <div class="container mx-auto px-4">
             <div class="max-w-4xl mx-auto">
                 <div class="text-center mb-10">
-                    <h2 class="text-2xl font-bold font-title">세부 일정</h2>
+                    <div class="flex justify-center items-center gap-3 mb-2">
+                        <h2 class="text-2xl md:text-3xl font-bold font-title">세부 일정</h2>
+                        <!-- 일정표 인쇄 버튼 추가 -->
+                        <button onclick="window.print()" class="bg-slate-800 text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow-md hover:bg-slate-700 transition flex items-center gap-1"><i class="fa-solid fa-print"></i> 일정표 인쇄</button>
+                    </div>
                     <p class="text-slate-500 text-sm">탭을 눌러 일자별 상세 체험 내용을 확인하세요.</p>
                     <p class="text-xs text-red-500 mt-2 font-bold bg-red-50 inline-block px-3 py-1 rounded-full shadow-sm"><i class="fa-solid fa-circle-exclamation"></i> 상기 상세 일정은 교통 및 현지 사정에 의해 변동될 수 있습니다.</p>
                 </div>
 
-                <div class="flex overflow-x-auto no-scrollbar gap-2 mb-8 justify-start md:justify-center">
+                <div class="flex overflow-x-auto no-scrollbar gap-2 mb-8 justify-start md:justify-center px-2">
                     <button class="tab-btn active shrink-0 px-6 py-3 rounded-2xl border-2 border-blue-500 bg-blue-500 text-white font-bold text-sm transition" onclick="openTab(event, 'day1')">1일차 (10/6 화)</button>
                     <button class="tab-btn shrink-0 px-6 py-3 rounded-2xl border-2 border-slate-200 bg-white text-slate-500 font-bold text-sm transition" onclick="openTab(event, 'day2')">2일차 (10/7 수)</button>
                     <button class="tab-btn shrink-0 px-6 py-3 rounded-2xl border-2 border-slate-200 bg-white text-slate-500 font-bold text-sm transition" onclick="openTab(event, 'day3')">3일차 (10/8 목)</button>
@@ -431,17 +474,98 @@
             <div class="flex flex-col items-center justify-center mb-6">
                 <a href="http://tourmaker.kr" target="_blank" class="inline-block bg-white border border-slate-300 rounded-xl px-6 py-3 hover:shadow-md transition-shadow mb-6">
                     <div class="flex items-center gap-3">
-                        <img src="https://blogger.googleusercontent.com/img/a/AVvXsEitI-Z-hD82keOJ1AqHw-VTZjpw2U-O5UjtV9h3zblyG0wjsVfBWe9X9o0Q_Spctrt7krkd9qXO0xKTmGJLw4gyMZrRqpshKMFttnyx6OcC8-IGz3XLUZpGQOnRqVdol8jz5HuoDLqsEifnVRhcjUJHm13Sz8JrX9aPswMNUwZPvGtJEnQjhc2PiXlo-B8" alt="Tourmaker" class="h-6">
+                        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgHfgIX70O5k6Anuo0UgALIdaG9jSga9auHu3uyz0uEirylGPAJnjN_qQbvEGMUvPqUQf_g9FMNUHRxlDcUBf4vZ3Mpy4TnA9WxbmzWYK11gt2zuy_Irl4wctNFjcjLyPo0GPXV792o_J7L9guRMuDfeC1gy7USwywjYbECZgzcsHybuGRRAXAnO1eNmP8/s320/logo.png" alt="Tourmaker" class="h-6">
                         <span class="text-sm font-bold text-slate-700">홈페이지 바로가기 <i class="fa-solid fa-chevron-right text-xs"></i></span>
                     </div>
                 </a>
             </div>
             
-            <p style="font-size: 12px; color: #6c757d; text-align: center; line-height: 1.6; max-width: 600px; margin: 0 auto;">
-                [System Powered by TOURMAKER] 본 스마트 가이드북은 **남선초등학교**의 기획과 <a href="http://tourmaker.kr" target="_blank" style="color: #6c757d; font-weight: bold; text-decoration: underline; text-underline-offset: 2px;">투어메이커</a>의 트래블 테크 기술 제휴로 제작되었습니다.
+            <p style="font-size: 13px; color: #6c757d; text-align: center;" class="font-normal mb-8 max-w-2xl mx-auto leading-relaxed">
+                [System Powered by TOURMAKER] 본 스마트 가이드북은 **남선초등학교**의 기획과 <a href="http://tourmaker.kr" target="_blank" style="font-weight: bold; color: #6c757d; text-decoration: underline; text-underline-offset: 2px;">투어메이커</a>의 트래블 테크 기술 제휴로 제작되었습니다.
             </p>
+            <p class="text-[10px] text-slate-300">&copy; 2026 Tourmaker Inc. All rights reserved.</p>
         </div>
     </footer>
+
+    </div> <!-- 화면에만 보이고 인쇄할 때는 숨겨지는 메인 래퍼 종료 -->
+
+    <!-- 인쇄 전용 (A4) 레이아웃 시작 (평상시 화면에는 숨김) -->
+    <div class="hidden print:block bg-white text-black p-4 w-full font-sans" style="max-width: 210mm; margin: 0 auto;">
+        <div class="border-b-2 border-black pb-4 mb-6 text-center">
+            <h1 class="text-2xl font-bold text-center mb-2 font-title">[남선초등학교] 신나는 서울 문화탐방 2박 3일</h1>
+            <p class="text-center text-sm text-gray-600">※ 본 일정표는 교통 및 현지 사정에 따라 다소 변경될 수 있습니다.</p>
+        </div>
+        
+        <table class="w-full text-[12px] border-collapse border border-gray-400 mb-6">
+            <thead>
+                <tr class="bg-gray-100 text-center">
+                    <th class="border border-gray-400 p-2 w-16">일자</th>
+                    <th class="border border-gray-400 p-2 w-20">지역</th>
+                    <th class="border border-gray-400 p-2">상세일정</th>
+                    <th class="border border-gray-400 p-2 w-24">식사</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Day 1 -->
+                <tr>
+                    <td class="border border-gray-400 p-2 text-center font-bold">1일차<br>(화)</td>
+                    <td class="border border-gray-400 p-2 text-center">정선<br>고양<br>서울</td>
+                    <td class="border border-gray-400 p-2">
+                        <ul class="list-disc list-inside space-y-1">
+                            <li><strong>08:00</strong> 남선초등학교 출발</li>
+                            <li><strong>현대모터스튜디오 고양</strong> (자동차 제조 과정 견학)</li>
+                            <li><strong>하이커 그라운드</strong> (K-POP 및 미디어 아트 체험)</li>
+                            <li><strong>페인터즈 공연 관람</strong> (라이브 드로잉 퍼포먼스)</li>
+                            <li class="mt-2 text-blue-700"><strong>[숙소] 서울 지역 호텔 도착 및 휴식</strong></li>
+                        </ul>
+                    </td>
+                    <td class="border border-gray-400 p-2 text-center text-gray-700">
+                        조: -<br>중: 푸드코트<br>석: 애슐리 퀸즈
+                    </td>
+                </tr>
+                <!-- Day 2 -->
+                <tr>
+                    <td class="border border-gray-400 p-2 text-center font-bold">2일차<br>(수)</td>
+                    <td class="border border-gray-400 p-2 text-center">서울<br>(잠실/여의도)</td>
+                    <td class="border border-gray-400 p-2">
+                        <ul class="list-disc list-inside space-y-1">
+                            <li><strong>롯데월드 어드벤처</strong> (놀이기구 자유 탑승 및 체험)</li>
+                            <li><strong>달빛뮤직 한강 크루즈</strong> (한강 야경 관람 및 라이브 음악)</li>
+                            <li class="mt-2 text-gray-700"><strong>[숙소] 서울 지역 호텔 휴식</strong></li>
+                        </ul>
+                    </td>
+                    <td class="border border-gray-400 p-2 text-center text-gray-700">
+                        조: 호텔식<br>중: 밀쿠폰<br>석: 돈까스 정식
+                    </td>
+                </tr>
+                <!-- Day 3 -->
+                <tr>
+                    <td class="border border-gray-400 p-2 text-center font-bold">3일차<br>(목)</td>
+                    <td class="border border-gray-400 p-2 text-center">서울<br>하남<br>정선</td>
+                    <td class="border border-gray-400 p-2">
+                        <ul class="list-disc list-inside space-y-1">
+                            <li><strong>롯데 아쿠아리움</strong> (도심 속 해양 생태계 관람)</li>
+                            <li><strong>롯데월드타워 관람</strong> (국내 최고층 전망대)</li>
+                            <li><strong>주렁주렁 스타필드 하남</strong> (실내 동물원 교감 체험)</li>
+                            <li class="mt-2 font-bold"><strong>18:30</strong> 남선초등학교 도착 예정</li>
+                        </ul>
+                    </td>
+                    <td class="border border-gray-400 p-2 text-center text-gray-700">
+                        조: 호텔식<br>중: 푸드코트<br>석: -
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="flex justify-between items-center mt-8 pt-4 border-t border-gray-300">
+            <div class="flex items-center gap-2">
+                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgHfgIX70O5k6Anuo0UgALIdaG9jSga9auHu3uyz0uEirylGPAJnjN_qQbvEGMUvPqUQf_g9FMNUHRxlDcUBf4vZ3Mpy4TnA9WxbmzWYK11gt2zuy_Irl4wctNFjcjLyPo0GPXV792o_J7L9guRMuDfeC1gy7USwywjYbECZgzcsHybuGRRAXAnO1eNmP8/s320/logo.png" alt="Tourmaker Logo" style="height: 20px;">
+                <span class="text-xs font-bold text-gray-600">TOURMAKER INC.</span>
+            </div>
+            <span class="text-xs text-gray-500">본 문서는 스마트 가이드북 내장 인쇄 기능으로 출력되었습니다.</span>
+        </div>
+    </div>
+    <!-- 인쇄 전용 (A4) 레이아웃 종료 -->
 
     <!-- Scripts -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
