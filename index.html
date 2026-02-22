@@ -5,7 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>[남선초등학교] 서울 2박 3일 문화탐방 - 스마트 가이드</title>
     
-    <!-- SEO & Open Graph -->
+    <!-- Google tag (gtag.js) - 구글 애널리틱스 추적 코드 추가 -->
+    <!-- 주의: 'G-YOUR_TRACKING_ID' 부분을 대표님의 실제 GA4 측정 ID로 변경해주세요 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YOUR_TRACKING_ID"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-YOUR_TRACKING_ID');
+    </script>
+
+    <!-- SEO & Open Graph (카톡 전송용 썸네일 필수 규칙 적용) -->
     <meta name="description" content="남선초등학교 학생들을 위한 신나는 서울 2박 3일 문화탐방 스마트 가이드북">
     <meta property="og:title" content="🎒 [남선초] 서울 문화탐방 가이드북">
     <meta property="og:image" content="https://images.openai.com/static-rsc-3/TbemD3g8-J6Rb6bYRNhSXLpAdf-AiQEo47XZdSEa1bu2MCWR46oQVJgLOYNPx8H0PzoDqlz9Y_t1GyieB3VUp9IrHdLoJ-j81FNPsQHUC-Q?purpose=fullsize&v=1">
@@ -53,6 +63,7 @@
     <header class="bg-white/95 backdrop-blur-md shadow-md sticky top-0 z-50 transition-all duration-300">
         <nav class="container mx-auto px-4 h-16 flex items-center justify-between">
             <div class="flex items-center gap-3 shrink-0">
+                <!-- 투어메이커 로고 규칙 적용 -->
                 <a href="http://tourmaker.kr" target="_blank">
                     <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgHfgIX70O5k6Anuo0UgALIdaG9jSga9auHu3uyz0uEirylGPAJnjN_qQbvEGMUvPqUQf_g9FMNUHRxlDcUBf4vZ3Mpy4TnA9WxbmzWYK11gt2zuy_Irl4wctNFjcjLyPo0GPXV792o_J7L9guRMuDfeC1gy7USwywjYbECZgzcsHybuGRRAXAnO1eNmP8/s320/logo.png" alt="Tourmaker" class="h-8">
                 </a>
@@ -97,9 +108,7 @@
             
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
                 <div class="bg-slate-50 p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
-                    <div class="w-14 h-14 bg-indigo-100 rounded-2xl flex items-center justify-center mb-4 text-3xl">
-                        🚘
-                    </div>
+                    <div class="w-14 h-14 bg-indigo-100 rounded-2xl flex items-center justify-center mb-4 text-3xl">🚘</div>
                     <h3 class="text-xl font-bold text-slate-800 mb-2">미래를 만나는 체험학습</h3>
                     <p class="text-slate-600 text-sm leading-relaxed mb-4">
                         현대모터스튜디오에서 자동차가 만들어지는 과정을 눈으로 확인하고, 하이커그라운드에서 K-POP 문화를 직접 체험하며 <span class="text-indigo-600 font-bold">상상력을 키우는 시간</span>을 가집니다.
@@ -108,9 +117,7 @@
                 </div>
 
                 <div class="bg-slate-50 p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
-                    <div class="w-14 h-14 bg-yellow-100 rounded-2xl flex items-center justify-center mb-4 text-3xl">
-                        🎢
-                    </div>
+                    <div class="w-14 h-14 bg-yellow-100 rounded-2xl flex items-center justify-center mb-4 text-3xl">🎢</div>
                     <h3 class="text-xl font-bold text-slate-800 mb-2">친구들과 잊지 못할 추억</h3>
                     <p class="text-slate-600 text-sm leading-relaxed mb-4">
                         모두가 기다리는 <span class="text-yellow-600 font-bold">롯데월드 어드벤처</span>부터 화려한 <span class="text-yellow-600 font-bold">페인터즈 공연</span>, 한강의 낭만을 느낄 수 있는 달빛 크루즈까지! 알찬 재미가 가득합니다.
@@ -119,9 +126,7 @@
                 </div>
 
                 <div class="bg-slate-50 p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
-                    <div class="w-14 h-14 bg-green-100 rounded-2xl flex items-center justify-center mb-4 text-3xl">
-                        🛡️
-                    </div>
+                    <div class="w-14 h-14 bg-green-100 rounded-2xl flex items-center justify-center mb-4 text-3xl">🛡️</div>
                     <h3 class="text-xl font-bold text-slate-800 mb-2">투어메이커 밀착 안전 케어</h3>
                     <p class="text-slate-600 text-sm leading-relaxed mb-4">
                         투어메이커의 검증된 가이드와 인솔 교사들이 함께하며, 복잡한 서울 도심에서도 학생들의 <span class="text-green-600 font-bold">안전을 최우선</span>으로 하는 동선을 확보하여 편안하게 이동합니다.
@@ -142,9 +147,7 @@
             </div>
             
             <div class="max-w-4xl mx-auto bg-white rounded-3xl p-8 md:p-10 border border-slate-200 shadow-md relative overflow-hidden">
-                <div class="absolute top-0 right-0 opacity-10 text-[150px] leading-none pointer-events-none transform translate-x-4 -translate-y-4">
-                    🏙️
-                </div>
+                <div class="absolute top-0 right-0 opacity-10 text-[150px] leading-none pointer-events-none transform translate-x-4 -translate-y-4">🏙️</div>
                 <h3 class="text-2xl font-bold text-slate-800 border-b-2 border-indigo-100 pb-4 mb-6 font-title">
                     대한민국의 심장, 서울 (Seoul) <span class="text-base text-indigo-500 font-medium ml-2 font-sans hidden md:inline-block">| 전통과 미래가 숨쉬는 곳</span>
                 </h3>
@@ -239,7 +242,7 @@
         </div>
     </section>
 
-    <!-- 5. Detailed Schedule -->
+    <!-- Detailed Schedule -->
     <section id="schedule" class="py-16 bg-white border-t border-slate-100">
         <div class="container mx-auto px-4">
             <div class="max-w-4xl mx-auto">
@@ -381,7 +384,7 @@
         </div>
     </section>
 
-    <!-- 6. Promotional Videos -->
+    <!-- Promotional Videos (유튜브 추천 소스 규칙 반영됨) -->
     <section id="video" class="py-16 bg-slate-900">
         <div class="container mx-auto px-4">
             <div class="text-center mb-10 text-white">
@@ -391,14 +394,12 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
                 <div class="space-y-3">
                     <div class="aspect-video rounded-3xl overflow-hidden shadow-2xl border border-slate-700">
-                        <!-- Painters Video -->
                         <iframe class="w-full h-full" src="https://www.youtube.com/embed/aSqfP-Jf6l8" title="Painters Performance" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                     </div>
                     <p class="text-center text-slate-300 font-bold text-sm">🎨 환상적인 아트 퍼포먼스, 페인터즈</p>
                 </div>
                 <div class="space-y-3">
                     <div class="aspect-video rounded-3xl overflow-hidden shadow-2xl border border-slate-700">
-                        <!-- Seoul Han River Video -->
                         <iframe class="w-full h-full" src="https://www.youtube.com/embed/tb4YpS9ntAs" title="Seoul Han River Cruise" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                     </div>
                     <p class="text-center text-slate-300 font-bold text-sm">🚢 낭만 가득한 한강 달빛 크루즈</p>
@@ -407,7 +408,7 @@
         </div>
     </section>
 
-    <!-- 7. Checklist & Memo -->
+    <!-- Checklist & Memo -->
     <section id="check" class="py-16 bg-white border-t border-slate-100">
         <div class="container mx-auto px-4">
             <div class="text-center mb-10">
@@ -434,7 +435,7 @@
         </div>
     </section>
 
-    <!-- 8. Emergency Contact -->
+    <!-- Emergency Contact -->
     <section id="contact" class="py-12 bg-slate-50">
         <div class="container mx-auto px-4">
             <div class="text-center mb-8">
@@ -468,9 +469,10 @@
         </div>
     </section>
 
-    <!-- Footer -->
+    <!-- Footer (B2B 포맷 및 홈페이지 바로가기 박스 규칙 완벽 적용) -->
     <footer style="background-color: #f8f9fa;" class="py-12 border-t border-slate-200">
         <div class="container mx-auto px-4 text-center">
+            <!-- 투어메이커 홈페이지 바로가기 박스 -->
             <div class="flex flex-col items-center justify-center mb-6">
                 <a href="http://tourmaker.kr" target="_blank" class="inline-block bg-white border border-slate-300 rounded-xl px-6 py-3 hover:shadow-md transition-shadow mb-6">
                     <div class="flex items-center gap-3">
@@ -480,6 +482,7 @@
                 </a>
             </div>
             
+            <!-- B2B 제휴 문구 규칙 적용 -->
             <p style="font-size: 13px; color: #6c757d; text-align: center;" class="font-normal mb-8 max-w-2xl mx-auto leading-relaxed">
                 [System Powered by TOURMAKER] 본 스마트 가이드북은 **남선초등학교**의 기획과 <a href="http://tourmaker.kr" target="_blank" style="font-weight: bold; color: #6c757d; text-decoration: underline; text-underline-offset: 2px;">투어메이커</a>의 트래블 테크 기술 제휴로 제작되었습니다.
             </p>
