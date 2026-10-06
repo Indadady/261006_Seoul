@@ -49,6 +49,7 @@
         body.event-day section { scroll-margin-top: 148px; }
         #schedule-day1, #schedule-day2, #schedule-day3 { scroll-margin-top: 148px; }
         #map { height: 520px; width: 100%; border-radius: 1rem; z-index: 10; }
+        #map-distance { min-width: 7.75rem; max-width: 10.5rem; }
         .animate-fade-in-up { animation: fadeInUp 0.9s ease-out forwards; }
         @keyframes fadeInUp {
             from { opacity: 0; transform: translateY(24px); }
@@ -360,11 +361,37 @@
             </div>
         </section>
 
+        <section id="transport" class="py-16 bg-slate-50 border-t border-slate-100">
+            <div class="container mx-auto px-4 max-w-5xl">
+                <div class="text-center mb-10">
+                    <h2 class="text-3xl font-bold text-slate-800 font-title tracking-tight">이동 동선 요약</h2>
+                </div>
+                <div class="grid md:grid-cols-4 gap-4 text-center text-sm">
+                    <div class="bg-white p-5 rounded-2xl border shadow-sm">
+                        <p class="font-bold text-orange-600 mb-1">1일차</p>
+                        <p class="text-slate-600">남선초 → <strong>고양</strong><br><span class="text-xs text-slate-400">약 4시간</span></p>
+                    </div>
+                    <div class="bg-white p-5 rounded-2xl border shadow-sm">
+                        <p class="font-bold text-violet-600 mb-1">2일차</p>
+                        <p class="text-slate-600">위례 → <strong>잠실·여의도</strong><br><span class="text-xs text-slate-400">호텔↔잠실 약 40분</span></p>
+                    </div>
+                    <div class="bg-white p-5 rounded-2xl border shadow-sm">
+                        <p class="font-bold text-blue-600 mb-1">3일차</p>
+                        <p class="text-slate-600">잠실 → <strong>하남</strong> → 남선초<br><span class="text-xs text-slate-400">하남→학교 약 3시간 50분</span></p>
+                    </div>
+                    <div class="bg-white p-5 rounded-2xl border shadow-sm">
+                        <p class="font-bold text-slate-700 mb-1">전 구간</p>
+                        <p class="text-slate-600">전용버스<br><span class="text-xs text-slate-400">전 일정 동일 차량</span></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <section id="map-section" class="py-16 bg-white border-t border-slate-100">
             <div class="container mx-auto px-4">
                 <div class="text-center mb-10">
                     <h2 class="text-3xl font-bold text-slate-800 font-title tracking-tight">한눈에 보는 여행 동선</h2>
-                    <p class="text-slate-500 mt-2 text-sm">출발지·도착지와 단체 전용버스 기준 소요시간·거리를 함께 봅니다. 도로 polyline으로 이어집니다.</p>
+                    <p class="text-slate-500 mt-2 text-sm italic">도시 사이는 실제 도로 polyline으로 이어집니다. 버스 아이콘이 진행 방향을 향합니다.</p>
                 </div>
                 <div class="flex flex-wrap justify-center gap-2 mb-8">
                     <button onclick="filterMap('all')" id="btn-map-all" class="map-btn px-6 py-2 rounded-full text-sm font-bold bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 transition-all">전체 일정</button>
@@ -375,18 +402,23 @@
                 <p id="map-hint" class="text-center text-xs text-slate-500 mb-4 font-medium">1일차 — 학교 출발 후 고양·광화문·종각·호텔</p>
                 <div class="max-w-5xl mx-auto border-8 border-slate-100 rounded-[2.5rem] shadow-xl overflow-hidden bg-white relative z-10">
                     <div id="map"></div>
-                    <div id="map-seg-label" class="absolute top-4 left-4 z-[400] bg-white/92 backdrop-blur px-3 py-1.5 rounded-xl shadow font-bold text-xs text-slate-700 pointer-events-none">
-                        출발지 → 도착지
+                    <div id="map-status" class="absolute top-4 left-4 z-[400] bg-white/90 backdrop-blur px-3 py-1.5 rounded-xl shadow font-bold text-xs text-slate-700 pointer-events-none">
+                        <i class="fa-solid fa-route text-blue-600 mr-1"></i><span id="map-status-text">출발지 → 도착지</span>
+                    </div>
+                    <div id="map-distance" class="hidden absolute top-4 right-4 z-[400] bg-white/90 backdrop-blur px-3 py-2 rounded-xl shadow pointer-events-none text-right">
+                        <p class="text-[10px] font-bold text-slate-400 tracking-wide">대략 이동</p>
+                        <p id="map-distance-leg" class="font-bold text-xs text-slate-800 leading-snug mt-0.5"></p>
+                        <p id="map-distance-time" class="font-black text-sm text-blue-700 mt-0.5"></p>
+                        <p id="map-distance-km" class="text-[10px] font-bold text-slate-500 mt-0.5"></p>
                     </div>
                 </div>
-                <div id="route-leg-list" class="max-w-5xl mx-auto mt-8 grid grid-cols-1 md:grid-cols-2 gap-3"></div>
-                <p class="max-w-5xl mx-auto mt-3 text-center text-[11px] text-slate-500 leading-relaxed">단체 전용버스 기준 · 승하차·도심 정체 여유를 넣은 예상입니다. 실제 도로는 달라질 수 있습니다.</p>
                 <div class="max-w-5xl mx-auto mt-6 flex flex-wrap justify-center gap-6 text-[11px] font-bold text-slate-500">
                     <div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-[#f97316]"></span>1일차 전용버스</div>
                     <div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-[#8b5cf6]"></span>2일차 전용버스</div>
                     <div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-[#3b82f6]"></span>3일차 전용버스</div>
                     <div class="flex items-center gap-1.5"><span class="w-6 border-t-2 border-solid border-slate-400"></span>실제 도로 동선</div>
                 </div>
+                <p class="max-w-5xl mx-auto mt-4 text-center text-xs text-slate-500 font-medium leading-relaxed">※ 지도 동선은 예상 경로이며, 실제 도로 사정에 따라 변경될 수 있습니다.</p>
             </div>
         </section>
 
@@ -912,17 +944,17 @@
         fetchWeather();
 
         const spots = {
-            school: { c: [37.2619, 128.6169], t: '남선초등학교', col: '#64748b', i: '🏫' },
-            motorstudio: { c: [37.6684, 126.7460], t: '현대모터스튜디오', col: '#f97316', i: '🚘' },
-            hikr: { c: [37.5687, 126.9819], t: '하이커 그라운드', col: '#f97316', i: '🎨' },
-            painters: { c: [37.5689, 126.9698], t: '경향아트힐 · 페인터즈', col: '#f97316', i: '🎭' },
-            ashley: { c: [37.5704, 126.9830], t: '애슐리퀸즈 종각', col: '#f97316', i: '🍽️' },
-            hotel: { c: [37.4768, 127.1435], t: '밀리토피아 호텔', col: '#8b5cf6', i: '🏨' },
-            lotteworld: { c: [37.5111, 127.0980], t: '롯데월드 어드벤처', col: '#8b5cf6', i: '🎢' },
-            yeouido: { c: [37.5285, 126.9338], t: '여의도 한강크루즈', col: '#8b5cf6', i: '🚢' },
-            aquarium: { c: [37.5135, 127.1039], t: '롯데 아쿠아리움', col: '#3b82f6', i: '🦈' },
-            seoulsky: { c: [37.5126, 127.1025], t: '서울스카이', col: '#3b82f6', i: '🌆' },
-            hanam: { c: [37.5456, 127.2237], t: '주렁주렁 하남', col: '#3b82f6', i: '🦊' }
+            school: { c: [37.2619, 128.6169], t: '남선초등학교', s: '남선초', col: '#64748b', i: '🏫' },
+            motorstudio: { c: [37.6684, 126.7460], t: '현대모터스튜디오', s: '모터스튜디오', col: '#f97316', i: '🚘' },
+            hikr: { c: [37.5687, 126.9819], t: '하이커 그라운드', s: '하이커', col: '#f97316', i: '🎨' },
+            painters: { c: [37.5689, 126.9698], t: '경향아트힐 · 페인터즈', s: '경향아트힐', col: '#f97316', i: '🎭' },
+            ashley: { c: [37.5704, 126.9830], t: '애슐리퀸즈 종각', s: '종각', col: '#f97316', i: '🍽️' },
+            hotel: { c: [37.4768, 127.1435], t: '밀리토피아 호텔', s: '밀리토피아', col: '#8b5cf6', i: '🏨' },
+            lotteworld: { c: [37.5111, 127.0980], t: '롯데월드 어드벤처', s: '롯데월드', col: '#8b5cf6', i: '🎢' },
+            yeouido: { c: [37.5285, 126.9338], t: '여의도 한강크루즈', s: '여의도', col: '#8b5cf6', i: '🚢' },
+            aquarium: { c: [37.5135, 127.1039], t: '롯데 아쿠아리움', s: '아쿠아리움', col: '#3b82f6', i: '🦈' },
+            seoulsky: { c: [37.5126, 127.1025], t: '서울스카이', s: '서울스카이', col: '#3b82f6', i: '🌆' },
+            hanam: { c: [37.5456, 127.2237], t: '주렁주렁 하남', s: '하남', col: '#3b82f6', i: '🦊' }
         };
 
         const routes = {
@@ -930,37 +962,37 @@
                 maxZoom: 7,
                 zoom: ['school', 'motorstudio', 'hotel', 'hanam'],
                 segs: [
-                    { from: 'school', to: 'motorstudio', mode: 'long', color: '#f97316', label: '남선초 → 현대모터스튜디오', fromName: '남선초등학교', toName: '현대모터스튜디오', km: 241, mins: 240 },
-                    { from: 'hanam', to: 'school', mode: 'long', color: '#3b82f6', label: '주렁주렁 → 남선초', fromName: '주렁주렁 하남', toName: '남선초등학교', km: 183, mins: 230 }
+                    { from: 'school', to: 'motorstudio', mode: 'long', color: '#f97316', label: '남선초 → 현대모터스튜디오' },
+                    { from: 'hanam', to: 'school', mode: 'long', color: '#3b82f6', label: '주렁주렁 → 남선초' }
                 ]
             },
             day1: {
                 maxZoom: 12,
                 zoom: ['motorstudio', 'hikr', 'painters', 'ashley', 'hotel'],
                 segs: [
-                    { from: 'school', to: 'motorstudio', mode: 'long', color: '#f97316', label: '남선초 → 현대모터스튜디오', fromName: '남선초등학교', toName: '현대모터스튜디오', km: 241, mins: 240 },
-                    { from: 'motorstudio', to: 'hikr', mode: 'drive', color: '#f97316', label: '모터스튜디오 → 하이커 그라운드', fromName: '현대모터스튜디오', toName: '하이커 그라운드', km: 30, mins: 90 },
-                    { from: 'hikr', to: 'painters', mode: 'drive', color: '#f97316', label: '하이커 그라운드 → 경향아트힐', fromName: '하이커 그라운드', toName: '경향아트힐', km: 2, mins: 25 },
-                    { from: 'painters', to: 'ashley', mode: 'drive', color: '#f97316', label: '경향아트힐 → 애슐리퀸즈', fromName: '경향아트힐', toName: '애슐리퀸즈 종각', km: 1, mins: 25 },
-                    { from: 'ashley', to: 'hotel', mode: 'drive', color: '#f97316', label: '애슐리퀸즈 → 밀리토피아', fromName: '애슐리퀸즈 종각', toName: '밀리토피아 호텔', km: 21, mins: 70 }
+                    { from: 'school', to: 'motorstudio', mode: 'long', color: '#f97316', label: '남선초 → 현대모터스튜디오' },
+                    { from: 'motorstudio', to: 'hikr', mode: 'drive', color: '#f97316', label: '모터스튜디오 → 하이커 그라운드' },
+                    { from: 'hikr', to: 'painters', mode: 'drive', color: '#f97316', label: '하이커 그라운드 → 경향아트힐' },
+                    { from: 'painters', to: 'ashley', mode: 'drive', color: '#f97316', label: '경향아트힐 → 애슐리퀸즈' },
+                    { from: 'ashley', to: 'hotel', mode: 'drive', color: '#f97316', label: '애슐리퀸즈 → 밀리토피아' }
                 ]
             },
             day2: {
                 maxZoom: 12,
                 zoom: ['hotel', 'lotteworld', 'yeouido'],
                 segs: [
-                    { from: 'hotel', to: 'lotteworld', mode: 'drive', color: '#8b5cf6', label: '밀리토피아 → 롯데월드', fromName: '밀리토피아 호텔', toName: '롯데월드 어드벤처', km: 7, mins: 40 },
-                    { from: 'lotteworld', to: 'yeouido', mode: 'drive', color: '#8b5cf6', label: '롯데월드 → 여의도 크루즈', fromName: '롯데월드 어드벤처', toName: '여의도 한강크루즈', km: 18, mins: 55 },
-                    { from: 'yeouido', to: 'hotel', mode: 'drive', color: '#8b5cf6', label: '여의도 → 밀리토피아', fromName: '여의도 한강크루즈', toName: '밀리토피아 호텔', km: 26, mins: 70 }
+                    { from: 'hotel', to: 'lotteworld', mode: 'drive', color: '#8b5cf6', label: '밀리토피아 → 롯데월드' },
+                    { from: 'lotteworld', to: 'yeouido', mode: 'drive', color: '#8b5cf6', label: '롯데월드 → 여의도 크루즈' },
+                    { from: 'yeouido', to: 'hotel', mode: 'drive', color: '#8b5cf6', label: '여의도 → 밀리토피아' }
                 ]
             },
             day3: {
                 maxZoom: 12,
                 zoom: ['hotel', 'aquarium', 'seoulsky', 'hanam'],
                 segs: [
-                    { from: 'hotel', to: 'aquarium', mode: 'drive', via: ['seoulsky'], color: '#3b82f6', label: '밀리토피아 → 잠실(아쿠아리움·서울스카이)', fromName: '밀리토피아 호텔', toName: '롯데 아쿠아리움', km: 7, mins: 40 },
-                    { from: 'aquarium', to: 'hanam', mode: 'drive', color: '#3b82f6', label: '잠실 → 주렁주렁 하남', fromName: '잠실(아쿠아리움·서울스카이)', toName: '주렁주렁 하남', km: 15, mins: 50 },
-                    { from: 'hanam', to: 'school', mode: 'long', color: '#3b82f6', label: '주렁주렁 → 남선초', fromName: '주렁주렁 하남', toName: '남선초등학교', km: 183, mins: 230 }
+                    { from: 'hotel', to: 'aquarium', mode: 'drive', via: ['seoulsky'], color: '#3b82f6', label: '밀리토피아 → 잠실(아쿠아리움·서울스카이)' },
+                    { from: 'aquarium', to: 'hanam', mode: 'drive', color: '#3b82f6', label: '잠실 → 주렁주렁 하남' },
+                    { from: 'hanam', to: 'school', mode: 'long', color: '#3b82f6', label: '주렁주렁 → 남선초' }
                 ]
             }
         };
@@ -979,36 +1011,6 @@
         const osrmCache = {};
         const markerStore = {};
 
-        function formatMins(mins) {
-            if (mins < 60) return '약 ' + mins + '분';
-            const h = Math.floor(mins / 60);
-            const r = mins % 60;
-            return r ? '약 ' + h + '시간 ' + r + '분' : '약 ' + h + '시간';
-        }
-        function renderRouteLegs(day) {
-            const box = document.getElementById('route-leg-list');
-            if (!box || !routes[day]) return;
-            box.innerHTML = routes[day].segs.map((seg, i) => `
-                <article class="bg-slate-50 border border-slate-100 rounded-2xl p-4 text-left">
-                    <p class="text-[10px] font-black text-slate-400 tracking-widest mb-2">${i + 1}구간 · 전용버스</p>
-                    <div class="flex items-start justify-between gap-3">
-                        <div class="min-w-0">
-                            <p class="text-[11px] font-bold text-slate-400">출발지</p>
-                            <p class="font-black text-slate-800 text-sm leading-snug">${seg.fromName}</p>
-                            <p class="text-[11px] font-bold text-slate-400 mt-2">도착지</p>
-                            <p class="font-black text-slate-800 text-sm leading-snug">${seg.toName}</p>
-                        </div>
-                        <div class="shrink-0 text-right">
-                            <p class="text-[11px] font-bold text-slate-400">소요시간</p>
-                            <p class="font-black text-[#004098] text-sm">${formatMins(seg.mins)}</p>
-                            <p class="text-[11px] font-bold text-slate-400 mt-2">거리</p>
-                            <p class="font-black text-slate-800 text-sm">${seg.km}km</p>
-                        </div>
-                    </div>
-                </article>
-            `).join('');
-        }
-
         function isMobile() { return window.innerWidth <= 768; }
         function segDuration(mode) {
             if (mode === 'long') return isMobile() ? 5200 : 2600;
@@ -1023,12 +1025,69 @@
                 const res = await fetch(`https://router.project-osrm.org/route/v1/driving/${coords}?overview=full&geometries=geojson`);
                 const data = await res.json();
                 if (data.code === 'Ok' && data.routes && data.routes[0]) {
-                    const path = data.routes[0].geometry.coordinates.map(([lng, lat]) => [lat, lng]);
-                    osrmCache[key] = path;
-                    return path;
+                    const packed = {
+                        path: data.routes[0].geometry.coordinates.map(([lng, lat]) => [lat, lng]),
+                        meters: data.routes[0].distance,
+                        seconds: data.routes[0].duration
+                    };
+                    osrmCache[key] = packed;
+                    return packed;
                 }
             } catch (e) { /* fallback */ }
-            return pts;
+            const meters = pathMeters(pts);
+            return { path: pts, meters, seconds: estimateSeconds(meters) };
+        }
+        function pathMeters(path) {
+            let total = 0;
+            for (let i = 1; i < path.length; i++) total += L.latLng(path[i - 1]).distanceTo(L.latLng(path[i]));
+            return total;
+        }
+        function estimateSeconds(meters) {
+            if (!meters || meters <= 0) return 0;
+            const kmh = meters >= 80000 ? 50 : 32;
+            return meters / (kmh / 3.6);
+        }
+        function groupSeconds(meters, osrmSeconds) {
+            const base = osrmSeconds || estimateSeconds(meters);
+            if (meters >= 80000) return base * 1.25 + 25 * 60;
+            return base * 1.55 + 12 * 60;
+        }
+        function formatApproxKm(meters) {
+            if (!meters || meters <= 0) return '';
+            if (meters < 800) return '약 ' + Math.round(meters / 100) * 100 + 'm';
+            const km = meters / 1000;
+            if (km < 10) return '약 ' + (Math.round(km * 2) / 2) + 'km';
+            if (km < 50) return '약 ' + Math.round(km) + 'km';
+            return '약 ' + Math.round(km / 5) * 5 + 'km';
+        }
+        function formatApproxTime(seconds) {
+            if (!seconds || seconds <= 0) return '';
+            const min = Math.max(1, Math.round(seconds / 60));
+            if (min < 8) return '약 ' + min + '분';
+            if (min < 55) return '약 ' + Math.max(5, Math.round(min / 5) * 5) + '분';
+            const rounded = Math.round(min / 10) * 10;
+            const h = Math.floor(rounded / 60);
+            const m = rounded % 60;
+            if (!h) return '약 ' + m + '분';
+            if (!m) return '약 ' + h + '시간';
+            return '약 ' + h + '시간 ' + m + '분';
+        }
+        function setMapDistance(fromKey, toKey, meters, seconds) {
+            const box = document.getElementById('map-distance');
+            const legEl = document.getElementById('map-distance-leg');
+            const timeEl = document.getElementById('map-distance-time');
+            const kmEl = document.getElementById('map-distance-km');
+            if (!box || !legEl || !timeEl || !kmEl) return;
+            const kmLabel = formatApproxKm(meters);
+            const timeLabel = formatApproxTime(groupSeconds(meters, seconds));
+            if (!fromKey || (!kmLabel && !timeLabel)) {
+                box.classList.add('hidden');
+                return;
+            }
+            box.classList.remove('hidden');
+            legEl.textContent = `${spots[fromKey].s} → ${spots[toKey].s}`;
+            timeEl.textContent = timeLabel;
+            kmEl.textContent = kmLabel;
         }
 
         function createIcon(color, emoji) {
@@ -1098,7 +1157,7 @@
             return { a, b };
         }
         function setSegLabel(text) {
-            const el = document.getElementById('map-seg-label');
+            const el = document.getElementById('map-status-text');
             if (el) el.textContent = text;
         }
         function showPin(key) {
@@ -1165,14 +1224,19 @@
 
         async function playRouteAnimation(day, token) {
             const cfg = routes[day];
+            setMapDistance('', '', 0, 0);
             for (const seg of cfg.segs) {
                 if (token !== animToken) return;
                 setSegLabel(seg.label);
                 if (seg.mode === 'long') fitKeys([seg.from, seg.to], 7);
                 else fitKeys(cfg.zoom, cfg.maxZoom);
 
-                const path = await resolvePath(seg);
+                const packed = await resolvePath(seg);
                 if (token !== animToken) return;
+                const path = packed.path || packed;
+                const meters = packed.meters || pathMeters(path);
+                const seconds = packed.seconds || estimateSeconds(meters);
+                setMapDistance(seg.from, seg.to, meters, seconds);
                 const layer = L.polyline(path, {
                     color: seg.color,
                     weight: 5,
@@ -1188,7 +1252,10 @@
                 showPin(seg.to);
                 if (seg.via) seg.via.forEach(showPin);
             }
-            if (token === animToken) setTimeout(clearTraveler, 500);
+            if (token === animToken) {
+                setSegLabel(mapHints[day] || '');
+                setTimeout(clearTraveler, 500);
+            }
         }
 
         window.filterMap = async function(day) {
@@ -1202,8 +1269,8 @@
             const active = document.getElementById('btn-map-' + day);
             if (active) active.className = 'map-btn px-6 py-2 rounded-full text-sm font-bold bg-slate-800 text-white shadow-lg transition-all';
             document.getElementById('map-hint').textContent = mapHints[day] || '';
-            renderRouteLegs(day);
-            setSegLabel('동선 준비 중…');
+            setSegLabel('실제 도로 동선을 불러오는 중...');
+            setMapDistance('', '', 0, 0);
 
             const cfg = routes[day];
             const startZoom = day === 'all' ? cfg.zoom : (day === 'day1' ? ['school', 'motorstudio'] : cfg.zoom);
