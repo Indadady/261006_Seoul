@@ -46,6 +46,8 @@
         }
         @media (max-width: 768px){ .hero-bg { background-attachment: scroll; } }
         section { scroll-margin-top: 84px; }
+        body.event-day section { scroll-margin-top: 148px; }
+        #schedule-day1, #schedule-day2, #schedule-day3 { scroll-margin-top: 148px; }
         #map { height: 520px; width: 100%; border-radius: 1rem; z-index: 10; }
         .animate-fade-in-up { animation: fadeInUp 0.9s ease-out forwards; }
         @keyframes fadeInUp {
@@ -84,7 +86,7 @@
         @media print {
             @page { size: A4 portrait; margin: 10mm; }
             body { background: white !important; margin: 0; padding: 0; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
-            .print\:hidden, header, footer, section:not(#print-area), .no-print, #toast, #custom-confirm { display: none !important; }
+            .print\:hidden, header, footer, section:not(#print-area), .no-print, #toast, #custom-confirm, #event-day-bar, #mobile-bottom-nav { display: none !important; }
             #print-area { display: block !important; }
             table td, table th { word-break: keep-all; padding: 6px !important; }
             tr, .print-checklist, .print-qr-box, .print-extra { page-break-inside: avoid; }
@@ -245,6 +247,8 @@
                 <div class="flex-1 overflow-x-auto no-scrollbar ml-4 md:ml-6">
                     <div class="flex items-center space-x-1 md:space-x-5 whitespace-nowrap pr-4">
                         <a href="#home" class="px-3 py-2 text-sm font-bold text-slate-600 hover:text-[#004098] rounded-lg">홈</a>
+                        <button type="button" onclick="goToTodaySchedule()" class="event-day-only hidden px-3 py-2 text-sm font-bold text-white bg-[#004098] rounded-lg">오늘의 일정</button>
+                        <button type="button" onclick="goToTodayRoute()" class="event-day-only hidden px-3 py-2 text-sm font-bold text-[#004098] bg-blue-50 border border-blue-200 rounded-lg">당일 동선</button>
                         <a href="#highlights" class="px-3 py-2 text-sm font-medium text-slate-600 hover:text-[#004098] rounded-lg">포인트</a>
                         <a href="#flight" class="px-3 py-2 text-sm font-bold text-sky-700 hover:bg-sky-50 rounded-lg"><i class="fa-solid fa-bus mr-1"></i>버스</a>
                         <a href="#map-section" class="px-3 py-2 text-sm font-medium text-slate-600 hover:text-[#004098] rounded-lg">동선</a>
@@ -260,6 +264,19 @@
                 </div>
             </nav>
         </header>
+
+        <div id="event-day-bar" class="hidden sticky top-16 z-40 bg-white/95 backdrop-blur-md border-b border-blue-100 shadow-sm no-print">
+            <div class="container mx-auto px-4 py-2.5">
+                <div class="grid grid-cols-2 gap-2 max-w-lg mx-auto">
+                    <button type="button" onclick="goToTodaySchedule()" class="flex items-center justify-center gap-2 px-4 py-3 rounded-2xl border-2 border-[#004098] bg-[#004098] text-white font-bold text-sm shadow-sm active:scale-95 transition">
+                        <i class="fa-solid fa-calendar-day"></i> 오늘의 일정
+                    </button>
+                    <button type="button" onclick="goToTodayRoute()" class="flex items-center justify-center gap-2 px-4 py-3 rounded-2xl border-2 border-slate-300 bg-white text-slate-700 font-bold text-sm shadow-sm active:scale-95 transition">
+                        <i class="fa-solid fa-route"></i> 당일 동선
+                    </button>
+                </div>
+            </div>
+        </div>
 
         <section id="home" class="hero-bg min-h-[74vh] flex items-center justify-center text-center px-4">
             <div class="animate-fade-in-up text-white max-w-4xl">
@@ -349,7 +366,7 @@
             <div class="container mx-auto px-4">
                 <div class="text-center mb-10">
                     <h2 class="text-3xl font-bold text-slate-800 font-title tracking-tight">한눈에 보는 여행 동선</h2>
-                    <p class="text-slate-500 mt-2 text-sm italic">도시 사이는 실제 도로 polyline으로 이어집니다. 버스 아이콘이 진행 방향을 향합니다.</p>
+                    <p class="text-slate-500 mt-2 text-sm">출발지·도착지와 단체 전용버스 기준 소요시간·거리를 함께 봅니다. 도로 polyline으로 이어집니다.</p>
                 </div>
                 <div class="flex flex-wrap justify-center gap-2 mb-8">
                     <button onclick="filterMap('all')" id="btn-map-all" class="map-btn px-6 py-2 rounded-full text-sm font-bold bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 transition-all">전체 일정</button>
@@ -364,13 +381,14 @@
                         출발지 → 도착지
                     </div>
                 </div>
+                <div id="route-leg-list" class="max-w-5xl mx-auto mt-8 grid grid-cols-1 md:grid-cols-2 gap-3"></div>
+                <p class="max-w-5xl mx-auto mt-3 text-center text-[11px] text-slate-500 leading-relaxed">단체 전용버스 기준 · 승하차·도심 정체 여유를 넣은 예상입니다. 실제 도로는 달라질 수 있습니다.</p>
                 <div class="max-w-5xl mx-auto mt-6 flex flex-wrap justify-center gap-6 text-[11px] font-bold text-slate-500">
                     <div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-[#f97316]"></span>1일차 전용버스</div>
                     <div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-[#8b5cf6]"></span>2일차 전용버스</div>
                     <div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-[#3b82f6]"></span>3일차 전용버스</div>
                     <div class="flex items-center gap-1.5"><span class="w-6 border-t-2 border-solid border-slate-400"></span>실제 도로 동선</div>
                 </div>
-                <p class="max-w-5xl mx-auto mt-4 text-center text-xs text-slate-500 font-medium leading-relaxed">※ 지도 동선은 예상 경로이며, 실제 도로 사정에 따라 변경될 수 있습니다.</p>
             </div>
         </section>
 
@@ -385,7 +403,7 @@
                     </div>
                     <p class="text-center text-slate-500 text-sm mt-0 mb-10">상기 상세 일정은 학교 요청 및 현지 사정에 의해 변동될 수 있습니다. · 안내 초안</p>
 
-                    <div class="bg-white rounded-[2rem] shadow-lg border border-slate-100 overflow-hidden mb-8">
+                    <div id="schedule-day1" class="bg-white rounded-[2rem] shadow-lg border border-slate-100 overflow-hidden mb-8">
                         <div class="bg-gradient-to-r from-[#004098] to-sky-600 text-white px-6 py-5 flex items-center justify-between flex-wrap gap-3">
                             <div>
                                 <p class="text-xs font-bold opacity-80 uppercase tracking-widest">Day 1 · 10.6 (화)</p>
@@ -443,7 +461,7 @@
                         </div>
                     </div>
 
-                    <div class="bg-white rounded-[2rem] shadow-lg border border-slate-100 overflow-hidden mb-8">
+                    <div id="schedule-day2" class="bg-white rounded-[2rem] shadow-lg border border-slate-100 overflow-hidden mb-8">
                         <div class="bg-gradient-to-r from-violet-700 to-rose-500 text-white px-6 py-5 flex items-center justify-between flex-wrap gap-3">
                             <div>
                                 <p class="text-xs font-bold opacity-80 uppercase tracking-widest">Day 2 · 10.7 (수)</p>
@@ -485,7 +503,7 @@
                         </div>
                     </div>
 
-                    <div class="bg-white rounded-[2rem] shadow-lg border border-slate-100 overflow-hidden">
+                    <div id="schedule-day3" class="bg-white rounded-[2rem] shadow-lg border border-slate-100 overflow-hidden">
                         <div class="bg-gradient-to-r from-slate-800 to-blue-600 text-white px-6 py-5 flex items-center justify-between flex-wrap gap-3">
                             <div>
                                 <p class="text-xs font-bold opacity-80 uppercase tracking-widest">Day 3 · 10.8 (목)</p>
@@ -733,6 +751,14 @@
 
         <footer style="background-color: #f8f9fa; padding: 40px 0; text-align: center;">
             <div class="container mx-auto px-4">
+                <div id="footer-today-nav" class="event-day-only hidden grid grid-cols-2 gap-2 max-w-lg mx-auto mb-8">
+                    <button type="button" onclick="goToTodaySchedule()" class="flex items-center justify-center gap-2 px-4 py-3 rounded-2xl border-2 border-[#004098] bg-[#004098] text-white font-bold text-sm shadow-sm">
+                        <i class="fa-solid fa-calendar-day"></i> 오늘의 일정
+                    </button>
+                    <button type="button" onclick="goToTodayRoute()" class="flex items-center justify-center gap-2 px-4 py-3 rounded-2xl border-2 border-slate-300 bg-white text-slate-700 font-bold text-sm shadow-sm">
+                        <i class="fa-solid fa-route"></i> 당일 동선
+                    </button>
+                </div>
                 <div class="flex flex-col items-center justify-center mb-6">
                     <a href="http://tourmaker.kr" target="_blank" rel="noopener" class="bg-white border border-slate-300 rounded-[1.2rem] px-8 py-4 hover:shadow-lg transition-all inline-block">
                         <div class="flex items-center gap-4">
@@ -748,7 +774,16 @@
         </footer>
     </div>
 
-    <div id="toast" class="fixed bottom-8 left-1/2 -translate-x-1/2 translate-y-20 opacity-0 bg-slate-900 text-white px-5 py-3 rounded-full text-sm font-bold shadow-xl z-[9999] transition-all duration-300 no-print">
+    <div id="mobile-bottom-nav" class="md:hidden fixed bottom-0 w-full bg-white/95 backdrop-blur-md border-t border-slate-200 flex justify-around py-2 pb-safe z-50 text-[10px] text-slate-500 font-medium shadow-[0_-10px_20px_-5px_rgba(0,0,0,0.05)] no-print">
+        <a href="#home" class="flex flex-col items-center gap-1 p-2 text-[#004098]"><i class="fa-solid fa-house text-xl mb-0.5"></i>홈</a>
+        <button type="button" onclick="goToTodaySchedule()" class="event-day-only hidden flex flex-col items-center gap-1 p-2 text-[#004098]"><i class="fa-solid fa-calendar-day text-xl mb-0.5"></i>당일일정</button>
+        <button type="button" onclick="goToTodayRoute()" class="event-day-only hidden flex flex-col items-center gap-1 p-2 text-[#004098]"><i class="fa-solid fa-route text-xl mb-0.5"></i>당일동선</button>
+        <a href="#map-section" class="flex flex-col items-center gap-1 p-2"><i class="fa-solid fa-map-location-dot text-xl mb-0.5"></i>동선</a>
+        <a href="#schedule" class="flex flex-col items-center gap-1 p-2"><i class="fa-regular fa-calendar-days text-xl mb-0.5"></i>일정</a>
+        <a href="#contact" class="flex flex-col items-center gap-1 p-2 text-red-600"><i class="fa-solid fa-phone text-xl mb-0.5"></i>연락망</a>
+    </div>
+
+    <div id="toast" class="fixed bottom-24 md:bottom-8 left-1/2 -translate-x-1/2 translate-y-20 opacity-0 bg-slate-900 text-white px-5 py-3 rounded-full text-sm font-bold shadow-xl z-[9999] transition-all duration-300 no-print">
         <span id="toast-msg"></span>
     </div>
     <div id="custom-confirm" class="fixed inset-0 z-[9999] hidden items-center justify-center bg-black/60 backdrop-blur-sm px-4 no-print">
@@ -769,12 +804,30 @@
         const CHECK_KEY = 'tm_261006_seoul_checklist';
         const MEMO_KEY = 'tm_261006_seoul_memo';
         const CHECK_ITEMS = ['편한 운동화', '여벌 옷', '세면도구', '얇은 겉옷(가디건·바람막이)', '개인 상비약(멀미약)', '보조배터리', '우산', '약간의 용돈'];
-        const TOUR_START = new Date('2026-10-06T00:00:00+09:00');
-        const TOUR_END = new Date('2026-10-08T23:59:59+09:00');
+        const TOUR_START = '2026-10-06';
+        const TOUR_END = '2026-10-08';
+        const TEST_DATE = "";
+        const EVENT_DAYS = {
+            '2026-10-06': 'day1',
+            '2026-10-07': 'day2',
+            '2026-10-08': 'day3'
+        };
 
         window.addEventListener('beforeprint', () => { document.title = PRINT_FILENAME; });
         window.addEventListener('afterprint', () => { document.title = PAGE_TITLE; });
         function printSchedule() { window.print(); }
+        function getGuidebookToday() {
+            const q = new URLSearchParams(location.search).get('test_date');
+            if (q && /^\d{4}-\d{2}-\d{2}$/.test(q)) return q;
+            if (TEST_DATE) return TEST_DATE;
+            return new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Seoul' }).format(new Date());
+        }
+        function ymdDiffDays(a, b) {
+            const [ay, am, ad] = a.split('-').map(Number);
+            const [by, bm, bd] = b.split('-').map(Number);
+            return Math.round((Date.UTC(ay, am - 1, ad) - Date.UTC(by, bm - 1, bd)) / 86400000);
+        }
+        function getTodayDayKey() { return EVENT_DAYS[getGuidebookToday()] || null; }
         function showToast(msg) {
             const t = document.getElementById('toast');
             document.getElementById('toast-msg').innerText = msg;
@@ -788,14 +841,13 @@
         }
         function updateDday() {
             const badge = document.getElementById('d-day-badge');
-            const now = new Date();
+            const today = getGuidebookToday();
             badge.classList.remove('hidden');
-            if (now < TOUR_START) {
-                const n = Math.ceil((TOUR_START - now) / 86400000);
+            if (today < TOUR_START) {
                 badge.className = 'ml-1 bg-[#004098] text-white text-[10px] px-2.5 py-1 rounded-full font-bold';
-                badge.innerText = 'D-' + n;
-            } else if (now <= TOUR_END) {
-                const dayCount = Math.floor((now - TOUR_START) / 86400000) + 1;
+                badge.innerText = 'D-' + ymdDiffDays(TOUR_START, today);
+            } else if (today <= TOUR_END) {
+                const dayCount = ymdDiffDays(today, TOUR_START) + 1;
                 badge.className = 'ml-1 bg-red-500 text-white text-[10px] px-2.5 py-1 rounded-full font-bold';
                 badge.innerText = '📍 ' + dayCount + '일차 진행중';
             } else {
@@ -803,7 +855,28 @@
                 badge.innerText = '🏁 여정 종료';
             }
         }
+        function goToTodaySchedule() {
+            const dayKey = getTodayDayKey();
+            const target = document.getElementById(dayKey ? 'schedule-' + dayKey : 'schedule');
+            (target || document.getElementById('schedule'))?.scrollIntoView({ behavior: 'smooth' });
+        }
+        function goToTodayRoute() {
+            const dayKey = getTodayDayKey();
+            if (dayKey && typeof filterMap === 'function') filterMap(dayKey);
+            document.getElementById('map-section')?.scrollIntoView({ behavior: 'smooth' });
+        }
+        function initEventDayUI() {
+            const bar = document.getElementById('event-day-bar');
+            const dayKey = getTodayDayKey();
+            const isEventDay = !!dayKey;
+            if (bar) bar.classList.toggle('hidden', !isEventDay);
+            document.body.classList.toggle('event-day', isEventDay);
+            document.querySelectorAll('.event-day-only').forEach(el => {
+                el.classList.toggle('hidden', !isEventDay);
+            });
+        }
         updateDday();
+        initEventDayUI();
 
         function renderChecklist() {
             const c = document.getElementById('checklist-container');
@@ -879,37 +952,37 @@
                 maxZoom: 7,
                 zoom: ['school', 'motorstudio', 'hotel', 'hanam'],
                 segs: [
-                    { from: 'school', to: 'motorstudio', mode: 'long', color: '#f97316', label: '남선초 → 현대모터스튜디오' },
-                    { from: 'hanam', to: 'school', mode: 'long', color: '#3b82f6', label: '주렁주렁 → 남선초' }
+                    { from: 'school', to: 'motorstudio', mode: 'long', color: '#f97316', label: '남선초 → 현대모터스튜디오', fromName: '남선초등학교', toName: '현대모터스튜디오', km: 241, mins: 240 },
+                    { from: 'hanam', to: 'school', mode: 'long', color: '#3b82f6', label: '주렁주렁 → 남선초', fromName: '주렁주렁 하남', toName: '남선초등학교', km: 183, mins: 230 }
                 ]
             },
             day1: {
                 maxZoom: 12,
                 zoom: ['motorstudio', 'hikr', 'painters', 'ashley', 'hotel'],
                 segs: [
-                    { from: 'school', to: 'motorstudio', mode: 'long', color: '#f97316', label: '남선초 → 현대모터스튜디오' },
-                    { from: 'motorstudio', to: 'hikr', mode: 'drive', color: '#f97316', label: '모터스튜디오 → 하이커 그라운드' },
-                    { from: 'hikr', to: 'painters', mode: 'drive', color: '#f97316', label: '하이커 그라운드 → 경향아트힐' },
-                    { from: 'painters', to: 'ashley', mode: 'drive', color: '#f97316', label: '경향아트힐 → 애슐리퀸즈' },
-                    { from: 'ashley', to: 'hotel', mode: 'drive', color: '#f97316', label: '애슐리퀸즈 → 밀리토피아' }
+                    { from: 'school', to: 'motorstudio', mode: 'long', color: '#f97316', label: '남선초 → 현대모터스튜디오', fromName: '남선초등학교', toName: '현대모터스튜디오', km: 241, mins: 240 },
+                    { from: 'motorstudio', to: 'hikr', mode: 'drive', color: '#f97316', label: '모터스튜디오 → 하이커 그라운드', fromName: '현대모터스튜디오', toName: '하이커 그라운드', km: 30, mins: 90 },
+                    { from: 'hikr', to: 'painters', mode: 'drive', color: '#f97316', label: '하이커 그라운드 → 경향아트힐', fromName: '하이커 그라운드', toName: '경향아트힐', km: 2, mins: 25 },
+                    { from: 'painters', to: 'ashley', mode: 'drive', color: '#f97316', label: '경향아트힐 → 애슐리퀸즈', fromName: '경향아트힐', toName: '애슐리퀸즈 종각', km: 1, mins: 25 },
+                    { from: 'ashley', to: 'hotel', mode: 'drive', color: '#f97316', label: '애슐리퀸즈 → 밀리토피아', fromName: '애슐리퀸즈 종각', toName: '밀리토피아 호텔', km: 21, mins: 70 }
                 ]
             },
             day2: {
                 maxZoom: 12,
                 zoom: ['hotel', 'lotteworld', 'yeouido'],
                 segs: [
-                    { from: 'hotel', to: 'lotteworld', mode: 'drive', color: '#8b5cf6', label: '밀리토피아 → 롯데월드' },
-                    { from: 'lotteworld', to: 'yeouido', mode: 'drive', color: '#8b5cf6', label: '롯데월드 → 여의도 크루즈' },
-                    { from: 'yeouido', to: 'hotel', mode: 'drive', color: '#8b5cf6', label: '여의도 → 밀리토피아' }
+                    { from: 'hotel', to: 'lotteworld', mode: 'drive', color: '#8b5cf6', label: '밀리토피아 → 롯데월드', fromName: '밀리토피아 호텔', toName: '롯데월드 어드벤처', km: 7, mins: 40 },
+                    { from: 'lotteworld', to: 'yeouido', mode: 'drive', color: '#8b5cf6', label: '롯데월드 → 여의도 크루즈', fromName: '롯데월드 어드벤처', toName: '여의도 한강크루즈', km: 18, mins: 55 },
+                    { from: 'yeouido', to: 'hotel', mode: 'drive', color: '#8b5cf6', label: '여의도 → 밀리토피아', fromName: '여의도 한강크루즈', toName: '밀리토피아 호텔', km: 26, mins: 70 }
                 ]
             },
             day3: {
                 maxZoom: 12,
                 zoom: ['hotel', 'aquarium', 'seoulsky', 'hanam'],
                 segs: [
-                    { from: 'hotel', to: 'aquarium', mode: 'drive', via: ['seoulsky'], color: '#3b82f6', label: '밀리토피아 → 잠실(아쿠아리움·서울스카이)' },
-                    { from: 'aquarium', to: 'hanam', mode: 'drive', color: '#3b82f6', label: '잠실 → 주렁주렁 하남' },
-                    { from: 'hanam', to: 'school', mode: 'long', color: '#3b82f6', label: '주렁주렁 → 남선초' }
+                    { from: 'hotel', to: 'aquarium', mode: 'drive', via: ['seoulsky'], color: '#3b82f6', label: '밀리토피아 → 잠실(아쿠아리움·서울스카이)', fromName: '밀리토피아 호텔', toName: '롯데 아쿠아리움', km: 7, mins: 40 },
+                    { from: 'aquarium', to: 'hanam', mode: 'drive', color: '#3b82f6', label: '잠실 → 주렁주렁 하남', fromName: '잠실(아쿠아리움·서울스카이)', toName: '주렁주렁 하남', km: 15, mins: 50 },
+                    { from: 'hanam', to: 'school', mode: 'long', color: '#3b82f6', label: '주렁주렁 → 남선초', fromName: '주렁주렁 하남', toName: '남선초등학교', km: 183, mins: 230 }
                 ]
             }
         };
@@ -927,6 +1000,36 @@
         let activeLayers = [];
         const osrmCache = {};
         const markerStore = {};
+
+        function formatMins(mins) {
+            if (mins < 60) return '약 ' + mins + '분';
+            const h = Math.floor(mins / 60);
+            const r = mins % 60;
+            return r ? '약 ' + h + '시간 ' + r + '분' : '약 ' + h + '시간';
+        }
+        function renderRouteLegs(day) {
+            const box = document.getElementById('route-leg-list');
+            if (!box || !routes[day]) return;
+            box.innerHTML = routes[day].segs.map((seg, i) => `
+                <article class="bg-slate-50 border border-slate-100 rounded-2xl p-4 text-left">
+                    <p class="text-[10px] font-black text-slate-400 tracking-widest mb-2">${i + 1}구간 · 전용버스</p>
+                    <div class="flex items-start justify-between gap-3">
+                        <div class="min-w-0">
+                            <p class="text-[11px] font-bold text-slate-400">출발지</p>
+                            <p class="font-black text-slate-800 text-sm leading-snug">${seg.fromName}</p>
+                            <p class="text-[11px] font-bold text-slate-400 mt-2">도착지</p>
+                            <p class="font-black text-slate-800 text-sm leading-snug">${seg.toName}</p>
+                        </div>
+                        <div class="shrink-0 text-right">
+                            <p class="text-[11px] font-bold text-slate-400">소요시간</p>
+                            <p class="font-black text-[#004098] text-sm">${formatMins(seg.mins)}</p>
+                            <p class="text-[11px] font-bold text-slate-400 mt-2">거리</p>
+                            <p class="font-black text-slate-800 text-sm">${seg.km}km</p>
+                        </div>
+                    </div>
+                </article>
+            `).join('');
+        }
 
         function isMobile() { return window.innerWidth <= 768; }
         function segDuration(mode) {
@@ -1121,6 +1224,7 @@
             const active = document.getElementById('btn-map-' + day);
             if (active) active.className = 'map-btn px-6 py-2 rounded-full text-sm font-bold bg-slate-800 text-white shadow-lg transition-all';
             document.getElementById('map-hint').textContent = mapHints[day] || '';
+            renderRouteLegs(day);
             setSegLabel('동선 준비 중…');
 
             const cfg = routes[day];
@@ -1143,7 +1247,8 @@
                 const s = spots[k];
                 markerStore[k] = L.marker(s.c, { icon: createIcon(s.col, s.i) }).bindTooltip(s.t, { direction: 'top' });
             });
-            const start = isMobile() ? 'day1' : 'all';
+            const todayKey = getTodayDayKey();
+            const start = todayKey || (isMobile() ? 'day1' : 'all');
             filterMap(start);
         }
         window.addEventListener('load', initMap);
